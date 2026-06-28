@@ -1,0 +1,31 @@
+{
+    "type": "object",
+    "properties": {
+        "name": {"type": "string"},
+        "race": {
+            "type": "string",
+            "enum": ["Human", "Elf", "Dwarf", "Goblin", "Undead", "Skeleton", "Monster", "Giant", "Dragon"]
+        },
+        "class": {
+            "type": "string",
+            "enum": ["Warrior", "Mage", "Rogue", "Healer", "Ranger", "Tank"]
+        },
+        "element": {
+            "type": "string",
+            "enum": ["Fire", "Water", "Plant", "Earth", "Air", "Electric", "Light", "Dark"]
+        },
+        "health": {"type": "number"},
+        "attack": {"type": "number"},
+        "defense": {"type": "number"},
+        "speed": {"type": "number"},
+        "active_abilities": {
+            "type": "array",
+            "items": {"type": "string"}
+        },
+        "passive_abilities": {
+            "type": "array",
+            "items": {"type": "string"}
+        }
+    },
+    "required": ["name", "race", "class", "element", "health", "attack", "defense", "speed", "active_abilities", "passive_abilities"]
+}
