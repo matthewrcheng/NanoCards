@@ -1,0 +1,31 @@
+{
+    "name": "Elfina",
+    "race": "Elf",
+    "class": "Ranger",
+    "element": "Plant",
+    "health": 10,
+    "attack": 21,
+    "defense": 14,
+    "speed": 21,
+    "active_abilities": [
+        {
+            "name": "Nature Bow",
+            "type": "attack",
+            "element": "Plant",
+            "amount": 3
+        },
+        {
+            "name": "Barbed Arrow Rain",
+            "type": "attack",
+            "element": "Plant",
+            "amount": 2
+        },
+        {
+            "name": "Sniper Shot",
+            "type": "attack",
+            "element": "Plant",
+            "amount": 6
+        }
+    ],
+    "passive_abilities": []
+}

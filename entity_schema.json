@@ -1,4 +1,8 @@
 {
+    "$schema": "https://json-schema.org/draft-07/schema",
+    "$id": "https://example.com/entity_schema.json",
+    "title": "JSON Schema for NanoCard Entities",
+    "description": "Digital card battling game",
     "type": "object",
     "properties": {
         "name": {"type": "string"},
@@ -20,12 +24,42 @@
         "speed": {"type": "number"},
         "active_abilities": {
             "type": "array",
-            "items": {"type": "string"}
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string"},
+                    "type": {
+                        "type": "string",
+                        "enum": ["attack"]
+                    },
+                    "element": {
+                        "type": "string",
+                        "enum": ["Fire", "Water", "Plant", "Earth", "Air", "Electric", "Light", "Dark"]
+                    },
+                    "amount": {"type": "number"}
+                },
+                "required": [ "name", "type", "element", "amount" ]
+            }
         },
         "passive_abilities": {
             "type": "array",
-            "items": {"type": "string"}
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string"},
+                    "type": {
+                        "type": "string",
+                        "enum": ["attack"]
+                    },
+                    "element": {
+                        "type": "string",
+                        "enum": ["Fire", "Water", "Plant", "Earth", "Air", "Electric", "Light", "Dark"]
+                    },
+                    "amount": {"type": "number"}
+                },
+                "required": [ "name", "type", "element", "amount" ]
+            }
         }
     },
-    "required": ["name", "race", "class", "element", "health", "attack", "defense", "speed", "active_abilities", "passive_abilities"]
+    "required": [ "name", "race", "class", "element", "health", "attack", "defense", "speed", "active_abilities", "passive_abilities" ]
 }

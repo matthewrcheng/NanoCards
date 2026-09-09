@@ -1,0 +1,25 @@
+{
+    "name": "Goblino",
+    "race": "Goblin",
+    "class": "Rogue",
+    "element": "Air",
+    "health": 12,
+    "attack": 13,
+    "defense": 11,
+    "speed": 28,
+    "active_abilities": [
+        {
+            "name": "Knife Gust",
+            "type": "attack",
+            "element": "Air",
+            "amount": 3 
+        },
+        {
+            "name": "Surprise Attack",
+            "type": "attack",
+            "element": "Air",
+            "amount": 6
+        }
+    ],
+    "passive_abilities": []
+}

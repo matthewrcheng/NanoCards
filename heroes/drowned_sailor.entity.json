@@ -1,0 +1,19 @@
+{
+    "name": "Drowned Sailor",
+    "race": "Undead",
+    "class": "Warrior",
+    "element": "Water",
+    "health": 19,
+    "attack": 20,
+    "defense": 17,
+    "speed": 15,
+    "active_abilities": [
+        {
+            "name": "Pirate Sword",
+            "type": "attack",
+            "element": "Water",
+            "amount": 3
+        }
+    ],
+    "passive_abilities": []
+}

@@ -1,0 +1,25 @@
+{
+    "name": "Skulitan",
+    "race": "Skeleton",
+    "class": "Healer",
+    "element": "Earth",
+    "health": 8,
+    "attack": 11,
+    "defense": 9,
+    "speed": 22,
+    "active_abilities": [
+        {
+            "name": "Bone Club",
+            "type": "attack",
+            "element": "Earth",
+            "amount": 3
+        },
+        {
+            "name": "Magic Stones",
+            "type": "attack",
+            "element": "Earth",
+            "amount": 6
+        }
+    ],
+    "passive_abilities": []
+}
