@@ -12,7 +12,37 @@
             "name": "Pirate Sword",
             "type": "attack",
             "element": "Water",
-            "amount": 3
+            "amount": 3,
+            "effect": [],
+            "target": "Opponent",
+            "energy": 1
+        },
+        {
+            "name": "Sharpen Steel",
+            "type": "modify",
+            "element": "Water",
+            "amount": 1.5,
+            "effect": ["attack"],
+            "target": "Self",
+            "energy": 3
+        },
+        {
+            "name": "Wave Assault",
+            "type": "attack",
+            "element": "Water",
+            "amount": 2,
+            "effect": ["Stunned,1,1"],
+            "target": "Opponents",
+            "energy": 4
+        },
+        {
+            "name": "Ripcurrent Slice",
+            "type": "attack",
+            "element": "Water",
+            "amount": 7,
+            "effect": [],
+            "target": "Opponent",
+            "energy": 4
         }
     ],
     "passive_abilities": []

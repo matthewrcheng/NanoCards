@@ -8,6 +8,10 @@ def client_program():
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # IPv4 TCP socket
     client_socket.connect((host, port))  # connect to the server
 
+    heroes = []
+    enemies = []
+    abilities = []
+
     while True:
         # get initial data from server
         # decide what step it is
@@ -27,21 +31,45 @@ def client_program():
             continue
 
         if data[0] == "1":
-            heroes, enemies, abilities = data[1:].split(",")
+            heroes, enemies, abilities, count = data[1:].split(",")
             print(heroes)
             print(enemies)
             print(abilities)
 
-            message = input("Select ability:")  # again take input
+            count = int(count)
 
-            client_socket.sendall(message.encode())  # send message
+            ability_idx = -1
+            while ability_idx < 0 or ability_idx >= count:
+                try:
+                    ability_idx = int(input("Select ability:"))
+                except ValueError:
+                    print(f"Please input only a number 0-{count-1}")
+                    ability_idx = -1
+                except Exception:
+                    print(f"Unexptected Error: Please try again")
+                    ability_idx = -1
+
+            client_socket.sendall(str(ability_idx).encode())  # send message
 
         elif data[0] == "2":
-            print(data[1:])
+            targets, count = data[1:].split(",")
+            
+            print(targets)
 
-            message = input("Select target:")
+            count = int(count)
 
-            client_socket.sendall(message.encode())
+            target_idx = -1
+            while target_idx < 0 or target_idx >= count:
+                try:
+                    target_idx = int(input("Select target:"))
+                except ValueError:
+                    print(f"Please input only a number 0-{count-1}")
+                    target_idx = -1
+                except Exception:
+                    print(f"Unexptected Error: Please try again")
+                    target_idx = -1
+
+            client_socket.sendall(str(target_idx).encode())
 
         elif data[0] == "3":
             print(data[1:])

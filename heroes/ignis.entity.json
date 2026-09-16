@@ -1,0 +1,31 @@
+{
+    "name": "Ignis the Enchanter",
+    "race": "Human",
+    "class": "Mage",
+    "element": "Fire",
+    "health": 12,
+    "attack": 24,
+    "defense": 10,
+    "speed": 20,
+    "active_abilities": [
+        {
+            "name": "Fireball",
+            "type": "attack",
+            "element": "Fire",
+            "amount": 3,
+            "effect": [],
+            "target": "Opponent",
+            "energy": 1
+        },
+        {
+            "name": "Wildfire",
+            "type": "attack",
+            "element": "Fire",
+            "amount": 2,
+            "effect": ["Burn,3,1"],
+            "target": "Opponents",
+            "energy": 4
+        }
+    ],
+    "passive_abilities": []
+}

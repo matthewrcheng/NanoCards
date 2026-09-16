@@ -23,7 +23,7 @@ Tokens can be attached to cards
 - Frozen: this entity cannot move
 - Stunned: this entity cannot move
 - Aggro: this entity must be targeted by enemies, teammates cannot be directly attacked
-- Shield: the shield takes damage in place of this entity until it runs out
+- Shield: the shield takes damage in place of this entity until it runs out. It cannot be statused and it cannot take damage from status effects that were already active.
 - Disease: this entity deals .75x damage and takes 1.25x damage
 - Marked for Death: all attacks deal double damage to this entity
 

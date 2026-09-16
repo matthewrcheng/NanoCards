@@ -12,7 +12,10 @@
             "name": "Magma Sword",
             "type": "attack",
             "element": "Fire",
-            "amount": 3
+            "amount": 3,
+            "effect": [],
+            "target": "Opponent",
+            "energy": 1
         }
     ],
     "passive_abilities": []

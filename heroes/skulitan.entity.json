@@ -12,13 +12,28 @@
             "name": "Bone Club",
             "type": "attack",
             "element": "Earth",
-            "amount": 3
+            "amount": 3,
+            "effect": [],
+            "target": "Opponent",
+            "energy": 1
+        },
+        {
+            "name": "Necrotic Ritual",
+            "type": "heal",
+            "element": "Earth",
+            "amount": 10,
+            "effect": [],
+            "target": "Team",
+            "energy": 5
         },
         {
             "name": "Magic Stones",
             "type": "attack",
             "element": "Earth",
-            "amount": 6
+            "amount": 6,
+            "effect": [],
+            "target": "Opponent",
+            "energy": 3
         }
     ],
     "passive_abilities": []

@@ -12,19 +12,28 @@
             "name": "Nature Bow",
             "type": "attack",
             "element": "Plant",
-            "amount": 3
+            "amount": 3,
+            "effect": [],
+            "target": "Opponent",
+            "energy": 1
         },
         {
             "name": "Barbed Arrow Rain",
             "type": "attack",
             "element": "Plant",
-            "amount": 2
+            "amount": 2,
+            "effect": [],
+            "target": "Opponents",
+            "energy": 4
         },
         {
             "name": "Sniper Shot",
             "type": "attack",
             "element": "Plant",
-            "amount": 6
+            "amount": 6,
+            "effect": [],
+            "target": "Opponent",
+            "energy": 3
         }
     ],
     "passive_abilities": []

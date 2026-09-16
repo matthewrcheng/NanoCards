@@ -30,15 +30,21 @@
                     "name": {"type": "string"},
                     "type": {
                         "type": "string",
-                        "enum": ["attack"]
+                        "enum": ["attack", "heal", "modify", "status"]
                     },
                     "element": {
                         "type": "string",
                         "enum": ["Fire", "Water", "Plant", "Earth", "Air", "Electric", "Light", "Dark"]
                     },
-                    "amount": {"type": "number"}
+                    "amount": {"type": "number"},
+                    "effect": {"type": "array"},
+                    "target": {
+                        "type": "string",
+                        "enum": ["Self", "Team", "Teammate", "Opponent", "Opponents"]
+                    },
+                    "energy": {"type": "number"}
                 },
-                "required": [ "name", "type", "element", "amount" ]
+                "required": [ "name", "type", "element", "amount", "effect", "target", "energy" ]
             }
         },
         "passive_abilities": {

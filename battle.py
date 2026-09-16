@@ -24,7 +24,7 @@ class Battle:
 
         self.turn_order = self.__determine_turn_order()
 
-    def __determine_turn_order(self) -> list:
+    def __determine_turn_order(self) -> list[tuple[Hero, int, str]]:
         """
         1. base speed
         2. attacker (player) or defender (dungeon/npc): attackers move first to break speed ties
@@ -58,34 +58,7 @@ class Battle:
         self.address = None
         self.server_socket.close()  # close the listening socket
 
-    def turn(self):
-        # iterate through turn order
-        # if hero, get input from user
-        # if enemy, determine using algorithm
-        killed = []
-        for char in self.turn_order:
-            if char[0] in killed:
-                continue
-            if char[2] == "hero":
-                target, ability = self.get_user_input(char[0])
-                was_killed = target.process_ability(char[0], ability)
-                if was_killed:
-                    self.enemies.remove(target)
-                    killed.append(target)
-            else:
-                target, ability = self.decide_move(char[0])
-                was_killed = target.process_ability(char[0], ability)
-                if was_killed:
-                    self.heroes.remove(target)
-                    killed.append(target)
-        to_remove = []
-        if len(killed):
-            for char in killed:
-                for i in range(len(self.turn_order)):
-                    if self.turn_order[i][0] == char:
-                        to_remove.append(self.turn_order[i])
-            for char in to_remove:
-                self.turn_order.remove(char)
+    def check_end(self):
         if not len(self.heroes):
             data = "Enemy wins"
             if self.local:
@@ -101,6 +74,51 @@ class Battle:
                 self.conn.sendall(f"4{data}".encode())  # send data to the client
             return True
         return False
+
+    def turn(self):
+        # iterate through turn order
+        # if hero, get input from user
+        # if enemy, determine using algorithm
+        killed = []
+        for char in self.turn_order:
+            if char[0] in killed or char[0].movement_status_effects:
+                continue
+            if char[2] == "hero":
+                targets, ability = self.get_user_input(char[0])
+            else:
+                targets, ability = self.decide_move(char[0])
+            for target in targets:
+                was_killed = target.process_ability(char[0], ability)
+                if was_killed:
+                    if char[2] == "hero":
+                        self.enemies.remove(target)
+                    else:
+                        self.heroes.remove(target)
+                    killed.append(target)
+            if self.check_end():
+                return True
+        for char in self.turn_order:
+            if char[0].EOT_status_effects:
+                for status in char[0].EOT_status_effects:
+                    was_killed = char[0].take_damage(status.amount)
+                    if was_killed:
+                        if char[2] == "hero":
+                            self.heroes.remove(target)
+                        else:
+                            self.enemies.remove(target)
+                        killed.append(target)
+            if self.check_end():
+                return True
+            char[0].tick()
+        to_remove = []
+        if len(killed):
+            for char in killed:
+                for i in range(len(self.turn_order)):
+                    if self.turn_order[i][0] == char:
+                        to_remove.append(self.turn_order[i])
+            for char in to_remove:
+                self.turn_order.remove(char)
+        return self.check_end()
 
     def get_user_input(self, hero: Hero) -> tuple[Hero, Ability]:
         if self.local:
@@ -126,6 +144,8 @@ class Battle:
         for i,ability in enumerate(hero.active_abilities):
             data += f"{i}: {ability.name} {ability.element}\n"
 
+        data += f",{len(hero.active_abilities)}"
+
         self.conn.sendall(data.encode())  # send data to the client
 
         ability_idx = -1
@@ -141,35 +161,82 @@ class Battle:
 
         ability = hero.active_abilities[ability_idx]
 
-        target_list = self.enemies
-        if ability.type == "attack": # extend possibilities later
-            target_list = self.enemies
-        else:
-            target_list = self.heroes
+        if ability.target == "Opponent":
 
-        data = "2"
-        for i,char in enumerate(target_list):
-            data += f"{i}: {char.name} {char.element} {char.health}/{char.max_health}\n"
+            for enemy in self.enemies:
+                if enemy.targeting_status_effects:
+                    return [enemy], ability
 
-        self.conn.sendall(data.encode())
+            data = "2"
+            for i,char in enumerate(self.enemies):
+                data += f"{i}: {char.name} {char.element} {char.health}/{char.max_health}\n"
 
-        target_idx = -1
-        while target_idx < 0 or target_idx >= len(target_list):
-            raw = self.conn.recv(1024)  # read the client's selection
-            try:
-                target_idx = int(raw.decode('utf-8'))
-            except UnicodeDecodeError:
-                print(f"Received non-UTF-8 data from {self.address}, skipping")
-            except Exception as e:
-                print(f"Bad response from {self.address}: {e}")
-            print("user selected: " + str(target_idx))
+            data += f",{len(self.enemies)}"
 
-        target = target_list[target_idx]
+            self.conn.sendall(data.encode())
 
-        data = f"3{hero.name} used {ability.name} on {target.name}"
-        self.conn.sendall(data.encode())  # send data to the client
+            target_idx = -1
+            while target_idx < 0 or target_idx >= len(self.enemies):
+                raw = self.conn.recv(1024)  # read the client's selection
+                try:
+                    target_idx = int(raw.decode('utf-8'))
+                except UnicodeDecodeError:
+                    print(f"Received non-UTF-8 data from {self.address}, skipping")
+                except Exception as e:
+                    print(f"Bad response from {self.address}: {e}")
+                print("user selected: " + str(target_idx))
 
-        return target, ability
+            target = self.enemies[target_idx]
+
+            data = f"3{hero.name} used {ability.name} on {target.name}"
+            self.conn.sendall(data.encode())  # send data to the client
+
+            return [target], ability
+
+        if ability.target == "Opponents":
+            data = f"3{hero.name} used {ability.name}"
+            self.conn.sendall(data.encode())
+            return self.enemies, ability
+
+        if ability.target == "Self":
+            data = f"3{hero.name} used {ability.name}"
+            self.conn.sendall(data.encode())
+            return [hero], ability
+
+        if ability.target == "Teammate":
+
+            data = "2"
+            for i,char in enumerate(self.heroes):
+                data += f"{i}: {char.name} {char.element} {char.health}/{char.max_health}\n"
+
+            data += f",{len(self.heroes)}"
+            
+            self.conn.sendall(data.encode())
+
+            target_idx = -1
+            while target_idx < 0 or target_idx >= len(self.heroes):
+                raw = self.conn.recv(1024)
+                try:
+                    target_idx = int(raw.decode('utf-8'))
+                except UnicodeDecodeError:
+                    print(f"Received non-UTF-8 data from {self.address}, skipping")
+                except Exception as e:
+                    print(f"Bad response from {self.address}: {e}")
+                print("user selected: " + str(target_idx))
+
+            target = self.heroes[target_idx]
+
+            data = f"3{hero.name} used {ability.name} on {target.name}"
+            self.conn.sendall(data.encode())
+
+            return [target], ability
+
+        if ability.target == "Team":
+            data = f"3{hero.name} used {ability.name}"
+            self.conn.sendall(data.encode())
+            return self.heroes, ability
+
+        return random.choice(self.enemies), ability
 
 
     def get_user_input_cli(self, hero: Hero) -> tuple[Hero, Ability]:
@@ -184,25 +251,68 @@ class Battle:
 
         ability_idx = -1
         while ability_idx < 0 or ability_idx >= len(hero.active_abilities):
-            ability_idx = int(input("Select ability:"))
+            try:
+                ability_idx = int(input("Select ability:"))
+            except ValueError:
+                print(f"Please input only a number 0-{len(hero.active_abilities)-1}")
+                ability_idx = -1
+            except Exception:
+                print(f"Unexptected Error: Please try again")
+                ability_idx = -1
 
         ability = hero.active_abilities[ability_idx]
 
-        target_list = self.enemies
-        if ability.type == "attack": # extend possibilities later
-            target_list = self.enemies
-        else:
-            target_list = self.heroes
+        if ability.target == "Opponent":
 
-        target_idx = -1
-        while target_idx < 0 or target_idx >= len(target_list):
-            target_idx = int(input("Select target:"))
+            target_idx = -1
+            while target_idx < 0 or target_idx >= len(self.enemies):
+                try:
+                    target_idx = int(input("Select target:"))
+                except ValueError:
+                    print(f"Please input only a number 0-{len(self.enemies)-1}")
+                    target_idx = -1
+                except Exception:
+                    print(f"Unexptected Error: Please try again")
+                    target_idx = -1
 
-        target = target_list[target_idx]
+            target = self.enemies[target_idx]
 
-        print(f"{hero.name} used {ability.name} on {target.name}")
+            print(f"{hero.name} used {ability.name} on {target.name}")
 
-        return target, ability
+            return [target], ability
+        
+        if ability.target == "Opponents":
+            print(f"{hero.name} used {ability.name}")
+            return self.enemies, ability
+
+        if ability.target == "Self":
+            print(f"{hero.name} used {ability.name}")
+            return [hero], ability
+
+        if ability.target == "Teammate":
+            target_idx = -1
+            while target_idx < 0 or target_idx >= len(self.heroes):
+                try:
+                    target_idx = int(input("Select target:"))
+                except ValueError:
+                    print(f"Please input only a number 0-{len(self.heroes)-1}")
+                    target_idx = -1
+                except Exception:
+                    print(f"Unexptected Error: Please try again")
+                    target_idx = -1
+
+            target = self.heroes[target_idx]
+
+            print(f"{hero.name} used {ability.name} on {target.name}")
+
+            return [target], ability
+
+        if ability.target == "Team":
+            print(f"{hero.name} used {ability.name}")
+            return self.heroes, ability
+
+        return random.choice(self.enemies), ability
+
 
     def decide_move(self, enemy: Hero) -> tuple[Hero, Ability]:
         ability = random.choice(enemy.active_abilities)
@@ -215,6 +325,10 @@ class Battle:
 
         target = random.choice(target_list)
 
-        print(f"{enemy.name} used {ability.name} on {target.name}")
+        message = f"{enemy.name} used {ability.name} on {target.name}"
+        if self.local:
+            print(message)
+        else:
+            self.conn.sendall(message.encode())
 
-        return target, ability
+        return [target], ability

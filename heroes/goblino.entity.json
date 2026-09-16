@@ -12,13 +12,19 @@
             "name": "Knife Gust",
             "type": "attack",
             "element": "Air",
-            "amount": 3 
+            "amount": 3,
+            "effect": [],
+            "target": "Opponent",
+            "energy": 1
         },
         {
             "name": "Surprise Attack",
             "type": "attack",
             "element": "Air",
-            "amount": 6
+            "amount": 6,
+            "effect": [],
+            "target": "Opponent",
+            "energy": 3
         }
     ],
     "passive_abilities": []
