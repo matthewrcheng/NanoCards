@@ -1,0 +1,58 @@
+{
+    "name": "Magma Skeletal Warrior",
+    "race": "Skeleton",
+    "class": "Warrior",
+    "element": "Fire",
+    "health": 100,
+    "attack": 25,
+    "defense": 25,
+    "speed": 9,
+    "active_abilities": [
+        {
+            "name": "Magma Fist",
+            "type": "attack",
+            "element": "Fire",
+            "amount": 3,
+            "effect": [],
+            "target": "Opponent",
+            "energy": 1
+        },
+        {
+            "name": "Volcanic Eruption",
+            "type": "attack",
+            "element": "Fire",
+            "amount": 3,
+            "effect": [],
+            "target": "Opponents",
+            "energy": 5
+        },
+        {
+            "name": "Infernal Roar",
+            "type": "attack",
+            "element": "Fire",
+            "amount": 9,
+            "effect": [],
+            "target": "Opponent",
+            "energy": 6
+        },
+        {
+            "name": "Call of the Undead",
+            "type": "attack",
+            "element": "Dark",
+            "amount": 7,
+            "effect": [],
+            "target": "Opponent",
+            "energy": 3
+        },
+        {
+            "name": "Fire Bone",
+            "type": "attack",
+            "element": "Fire",
+            "amount": 12,
+            "effect": [],
+            "target": "Opponent",
+            "energy": 8
+        }
+    ],
+    "passive_abilities": []
+}

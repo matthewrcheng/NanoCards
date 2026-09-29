@@ -1,7 +1,7 @@
 import random
 import socket
 from ability import Ability
-from hero import Hero
+from entity import Hero
 
 
 class Battle:

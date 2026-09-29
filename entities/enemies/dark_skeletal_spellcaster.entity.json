@@ -1,0 +1,22 @@
+{
+    "name": "Magma Skeletal Warrior",
+    "race": "Skeleton",
+    "class": "Warrior",
+    "element": "Fire",
+    "health": 10,
+    "attack": 10,
+    "defense": 10,
+    "speed": 14,
+    "active_abilities": [
+        {
+            "name": "Dark Energy",
+            "type": "attack",
+            "element": "Dark",
+            "amount": 3,
+            "effect": [],
+            "target": "Opponent",
+            "energy": 1
+        }
+    ],
+    "passive_abilities": []
+}

@@ -1,0 +1,11 @@
+
+- [ ] give all heroes and enemies IDs
+- [ ] replicate the entity information for both the client and server
+- [ ] give all abilities IDs
+- [ ] modify the client code to receive the ID from the server, then read the entity data for display purposes
+- [ ] have the server only send dynamic data and an ID instead of all static data (send only ID, health, status effects)
+- [ ] see what the most efficient way to send data is (and if this varies from language to language)
+- [ ] determine the proper way to close out a battle at the end
+- [ ] add safeguards so that if the client disconnects midbattle, the battle is cleanly closed (in the future, this can count as a loss or potentially have it not count)
+- [ ] add safeguards so that if the server stops working midbattle, the client cleanly ends the battle
+- [ ] add a database (postgres perchance) for storing details about heros, items, currency, progress in the game, etc.

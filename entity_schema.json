@@ -30,7 +30,7 @@
                     "name": {"type": "string"},
                     "type": {
                         "type": "string",
-                        "enum": ["attack", "heal", "modify", "status"]
+                        "enum": ["attack", "heal", "modify", "status", "custom" ]
                     },
                     "element": {
                         "type": "string",

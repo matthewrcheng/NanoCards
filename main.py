@@ -1,5 +1,6 @@
 from battle import Battle
 from hero import Hero
+from enemy import Enemy
 
 def main():
     ds = Hero.from_json("drowned_sailor")
@@ -9,10 +10,10 @@ def main():
 
     heroes = [ds, elfina, goblino, skulitan]
 
-    msw1 = Hero.from_json("magma_skeletal_warrior")
-    msw2 = Hero.from_json("magma_skeletal_warrior")
-    msw3 = Hero.from_json("magma_skeletal_warrior")
-    msw4 = Hero.from_json("magma_skeletal_warrior")
+    msw1 = Enemy.from_json("magma_skeletal_warrior")
+    msw2 = Enemy.from_json("magma_skeletal_warrior")
+    msw3 = Enemy.from_json("magma_skeletal_warrior")
+    msw4 = Enemy.from_json("magma_skeletal_warrior")
 
     enemies = [msw1, msw2, msw3, msw4]
 

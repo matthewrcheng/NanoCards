@@ -1,0 +1,49 @@
+{
+    "name": "Zradira Bane",
+    "race": "Human",
+    "class": "Mage",
+    "element": "Dark",
+    "health": 19,
+    "attack": 20,
+    "defense": 17,
+    "speed": 15,
+    "active_abilities": [
+        {
+            "name": "Black Magic",
+            "type": "attack",
+            "element": "Dark",
+            "amount": 3,
+            "effect": [],
+            "target": "Opponent",
+            "energy": 1
+        },
+        {
+            "name": "Reanimate",
+            "type": "custom",
+            "element": "Dark",
+            "amount": 1.5,
+            "effect": ["attack"],
+            "target": "Self",
+            "energy": 3
+        },
+        {
+            "name": "Wave Assault",
+            "type": "attack",
+            "element": "Water",
+            "amount": 2,
+            "effect": ["Stunned,1,1"],
+            "target": "Opponents",
+            "energy": 4
+        },
+        {
+            "name": "Ripcurrent Slice",
+            "type": "attack",
+            "element": "Water",
+            "amount": 7,
+            "effect": [],
+            "target": "Opponent",
+            "energy": 4
+        }
+    ],
+    "passive_abilities": []
+}
